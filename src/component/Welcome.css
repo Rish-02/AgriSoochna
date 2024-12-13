@@ -1,0 +1,170 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  height: 100px;
+  cursor: pointer;
+}
+
+.auth-buttons{
+  margin-left: 10px;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signin-button {
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+}
+
+.signin-button:hover{
+  background-color:white;
+  color:  #4CAF50;
+  border: 2px solid #4CAF50;
+
+}
+
+
+.signup-button {
+  background-color: white;
+  color: #4CAF50;
+  border: 2px solid #4CAF50;
+  border-radius: 5px;
+}
+
+
+
+.signup-button:hover{
+  background-color: #4CAF50;
+  color: white;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.text-content {
+  max-width: 50%;
+  margin-left: 40px;
+}
+
+.text-content h1 {
+  color: #4CAF50;
+  font-size: 3em;
+}
+
+.text-content p {
+  font-size: 1em;
+  margin-top: 5px;
+}
+
+.get-started-button {
+  display: inline-block;
+  background-color: #4CAF50;
+  color: white;
+  padding: 20px 40px;
+  margin-top: 20px;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+
+.get-started-button:hover{
+  background-color: white;
+  color: #4CAF50;
+  border: 2px solid #4CAF50;
+
+
+}
+
+.stats {
+  display: flex;
+ 
+  margin-top: 40px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  background-color: #7CE14C;
+  padding: 18px;
+  margin-right: 40px;
+  text-align: center;
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
+.image-content  {
+  width: 50%;
+  height: 50%;
+  display:  flex;
+  align-items: center;
+  justify-content: center;
+}
+.main-image{
+  width: 50%;
+  height: 50%;
+}
+
+
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+  }
+  .get-started-button{
+    margin-left: 0;
+  }
+}
+@media (max-width: 450px) {
+  .content{
+    flex-direction: row;
+  }
+  .image-content{
+    display: none;
+  }
+  .text-content{
+    max-width: 100%;
+  }
+  .auth-buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .logo{
+    margin: auto;
+  }
+  .stats{
+    flex-direction: row;
+  }
+}
