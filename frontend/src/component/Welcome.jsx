@@ -26,11 +26,13 @@ const Welcome = () => {
                     <div className="stats">
                         <div className="stat">
                             <strong>70% </strong>
-                            <span> Farmers Benefited</span>
+                            <span> Farmers </span>
+                            <span> Benefited</span>
                         </div>
                         <div className="stat">
                             <strong>500+  </strong>
-                            <span> Videos Generated</span>
+                            <span> Videos </span>
+                            <span> Generated</span>
                         </div>
                     </div>
                 </div>

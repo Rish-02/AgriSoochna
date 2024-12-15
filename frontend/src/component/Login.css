@@ -1,0 +1,135 @@
+.login-container {
+    display: flex;
+    height: 100vh;
+    flex-wrap: wrap;
+}
+
+.login-left {
+    flex: 1;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-image {
+    width: 80%;
+    max-height: 100%;
+}
+
+.login-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 2rem;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.login-logo {
+    height: 50px;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #4b4b4b;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 400px;
+    
+}
+
+label {
+    display: block;
+    margin: 0.5rem 0;
+    color: #4b4b4b;
+}
+
+input {
+    width: 100%;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #000000;
+}
+
+.Input-field{
+    margin-bottom: 50px;
+    
+}
+
+.signup {
+    text-decoration: none;
+    text-align: center;
+}
+
+.login-button {
+    width: 100%;
+    padding: 0.7rem;
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border-radius: 25px;
+}
+
+.login-button:hover{
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+
+}
+
+
+
+.google-button {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    border-radius: 25px;
+
+}
+
+.google-button:hover{
+    border: 1px solid black;
+    color: #fff;
+    background-color: black
+}
+
+
+
+
+.google-button span {
+    margin-right: 8px;
+}
+
+
+
+@media (max-width: 650px) {
+    .login-left {
+        display: none;
+    }
+
+
+}
