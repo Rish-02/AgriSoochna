@@ -47,6 +47,7 @@ html, body {
   color: white;
   border: 2px solid #4CAF50;
   border-radius: 5px;
+  padding: auto;
 
 }
 
@@ -63,6 +64,8 @@ html, body {
   color: #4CAF50;
   border: 2px solid #4CAF50;
   border-radius: 5px;
+  padding: auto;
+
 }
 
 
@@ -116,6 +119,8 @@ html, body {
   text-decoration: none;
   border-radius: 8px;
   margin-left: 0px;
+  border: 2px solid white;
+
 }
 
 
@@ -134,11 +139,12 @@ html, body {
   display: flex;
   flex-direction: column;
   background-color: #228B22;
-  padding: 18px;
+  padding: 20px;
   margin-right: 40px;
-  text-align: center;
+  text-align: left ;
   border-radius: 15px;
   color: white;
+  
 }
 
 .image-content {
