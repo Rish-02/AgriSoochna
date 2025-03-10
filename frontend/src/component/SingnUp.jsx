@@ -23,10 +23,10 @@ const SignUp = () => {
         return emailRegex.test(email);
     };
 
-    const isValidMobile = (mobile) => {
-        const mobileRegex = /^[6-9]\d{9}$/;
-        return mobileRegex.test(mobile);
-    };
+    // const isValidMobile = (mobile) => {
+    //     const mobileRegex = /^[6-9]\d{9}$/;
+    //     return mobileRegex.test(mobile);
+    // };
 
     const handleSignUp = (e) => {
         e.preventDefault();
@@ -41,10 +41,10 @@ const SignUp = () => {
             return;
         }
 
-        if (!isValidMobile(signupData.mobile)) {
-            toast.error("Invalid mobile number");
-            return;
-        }
+        // if (!isValidMobile(signupData.mobile)) {
+        //     toast.error("Invalid mobile number");
+        //     return;
+        // }
 
         if (signupData.password !== signupData.confirmPassword) {
             toast.error("Passwords do not match");

@@ -41,6 +41,7 @@ const Login = () => {
             toast.error("Invalid email format");
             return;
         }
+        console.log(emailIsValid);
 
         console.log(` Final Data ${logidata.email} , ${logidata.password}`);    
     }
