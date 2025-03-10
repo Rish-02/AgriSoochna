@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import axios from "axios";
+
 const SignUp = () => {
     const [signupData, setSignupData] = useState({
         name: "",
@@ -13,6 +15,8 @@ const SignUp = () => {
         password: "",
         confirmPassword: "",
     });
+    const [loading, setLoading] = useState(false);
+
 
     const handleChange = (e) => {
         setSignupData({ ...signupData, [e.target.name]: e.target.value });
@@ -28,32 +32,37 @@ const SignUp = () => {
     //     return mobileRegex.test(mobile);
     // };
 
-    const handleSignUp = (e) => {
+    const handleSignUp = async (e) => {
         e.preventDefault();
-
-        if (signupData.name === "" || signupData.email === "" || signupData.password === "" || signupData.confirmPassword === "") {
+    
+        if (signupData.name === "" || signupData.email === "" || signupData.mobno === "" || signupData.password === "" || signupData.confirmPassword === "") {
             toast.error("Fill all details");
             return;
         }
-
+    
         if (!isValidEmail(signupData.email)) {
             toast.error("Invalid email format");
             return;
         }
-
-        // if (!isValidMobile(signupData.mobile)) {
-        //     toast.error("Invalid mobile number");
-        //     return;
-        // }
-
+    
         if (signupData.password !== signupData.confirmPassword) {
             toast.error("Passwords do not match");
             return;
         }
-
-        console.log(`Sign Up Data: ${signupData.name}, ${signupData.email}, ${signupData.password}`);
-        toast.success("Sign Up Successful!");
+    
+        setLoading(true);
+        try {
+            const response = await axios.post("http://localhost:3000/api/signup", signupData);
+            toast.success(response.data.message);
+            console.log("Signup Success:", response.data);
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Signup failed");
+            console.error("Signup Error:", error);
+        } finally {
+            setLoading(false);
+        }
     };
+    
 
     return (
         <div className="signup-container">
