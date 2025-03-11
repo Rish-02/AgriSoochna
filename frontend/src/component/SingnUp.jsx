@@ -27,10 +27,11 @@ const SignUp = () => {
         return emailRegex.test(email);
     };
 
-    // const isValidMobile = (mobile) => {
-    //     const mobileRegex = /^[6-9]\d{9}$/;
-    //     return mobileRegex.test(mobile);
-    // };
+    const isValidMobile = (mobile) => {
+        const mobileStr = String(mobile).trim()
+        const mobileRegex = /^[6-9][0-9]{9}$/;
+        return mobileRegex.test(mobileStr);
+    };
 
     const handleSignUp = async (e) => {
         e.preventDefault();
@@ -44,7 +45,12 @@ const SignUp = () => {
             toast.error("Invalid email format");
             return;
         }
-    
+
+        if (!isValidMobile(signupData.mobno)) {
+            toast.error("Invalid mobile number");
+            return;
+        }
+
         if (signupData.password !== signupData.confirmPassword) {
             toast.error("Passwords do not match");
             return;
@@ -85,7 +91,7 @@ const SignUp = () => {
                         <label>Email Id</label>
                         <input type="email" placeholder="Enter your email" value={signupData.email} name='email' onChange={handleChange} />
                         <label>Mobile No</label>
-                        <input type="Number" placeholder="Enter your Mobile No" value={signupData.mobno} name='mobno' onChange={handleChange} />
+                        <input type="tel" placeholder="Enter your Mobile No" value={signupData.mobno} name='mobno' onChange={handleChange} />
                         <label>Password</label>
                         <input type="password" placeholder="Enter your password" value={signupData.password} name='password' onChange={handleChange} />
                         <label>Confirm Password</label>
