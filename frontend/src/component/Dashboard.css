@@ -12,7 +12,7 @@
     padding: 10px;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
-    margin-right: 10px;
+    margin-right: 45px;
   }
   
   .logo img {
@@ -47,13 +47,15 @@
  
   .recommended {
     display: flex;
-    gap: 15px;
+    gap: 55px;
     justify-content: center;
     align-items: center;
-    width: 80vw;
+    width: 85%;
   }
   
   .card {
+    /* width: 500px; */
+    /* margin-left: 20px; */
     flex: 1;
     height: 150px;
     background: #eee;
@@ -67,14 +69,17 @@
   
   .content-section {
     display: flex;
-    gap: 20px;
+    gap: 50px;
     margin-top: 20px;
   }
   
-  .continue-watching,
+  .continue-watching{
+    /* flex: 1; */
+    width: 35vw;
+  }
   .latest-video {
-    flex: 1;
-    width: 40vw;
+    /* flex: 1; */
+    width: 50vw;
   }
   
   .video-placeholder {
@@ -108,7 +113,7 @@
     width: 80vw;
   }
   .video-large{
-    height: 340px;
+    height: 310px;
   }
   
 }
@@ -137,6 +142,8 @@
     display: none;
   }
   .card{
+    flex: 1;
+    gap: 15px;
     height: 100px;
     width: 80px;
   }
