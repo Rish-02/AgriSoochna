@@ -1,0 +1,147 @@
+
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f9f9f9;
+  }
+  
+  
+  .sidebar {
+    width: 5vw;
+    background-color: #35a936;
+    padding: 10px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    margin-right: 10px;
+  }
+  
+  .logo img {
+    width: 80%;
+  }
+  
+ 
+  .main-content {
+    flex: 1;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+  }
+  
+  
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-right: 30px;
+  }
+  
+  .search-bar input {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;  
+
+  }
+  
+ 
+  .recommended {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    width: 80vw;
+  }
+  
+  .card {
+    flex: 1;
+    height: 150px;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border-radius: 20px;
+  }
+  
+  
+  .content-section {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .continue-watching,
+  .latest-video {
+    flex: 1;
+    width: 40vw;
+  }
+  
+  .video-placeholder {
+    height: 80px;
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  .video-large {
+    height: 380px;
+    background: #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+
+@media (max-width: 1100px) {
+  .content-section {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 80vw;
+  }
+  .continue-watching,
+  .latest-video {
+    width: 80vw;
+  }
+  .video-large{
+    height: 340px;
+  }
+  
+}
+@media (max-width : 500px) {
+  .continue-watching{
+    display: none;
+  }
+  .video-large {
+    height: 350px;
+  }
+  .dashboard-header {
+    flex-wrap: wrap;
+  }
+  
+}
+  
+@media (max-width : 380px) {
+  .video-large {
+    height: 250px;
+  }
+  
+  
+}
+@media (max-height : 600px) {
+  .continue-watching{
+    display: none;
+  }
+  .card{
+    height: 100px;
+    width: 80px;
+  }
+  .video-large {
+    height: 300px;
+  }
+}
+  
