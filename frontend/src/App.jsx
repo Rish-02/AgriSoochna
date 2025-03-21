@@ -5,8 +5,7 @@ import { createBrowserRouter , createRoutesFromElements , Route , RouterProvider
 import Welcome from './component/Welcome'
 import Login from './component/Login'
 import SignUp from './component/SingnUp'
-
-
+import Dashboard from './component/Dashboard'
 
 import './App.css'
 
@@ -17,7 +16,8 @@ const router = createBrowserRouter(
       <Route index element={<Welcome />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<SignUp />} />
-      {/* <Route path="dashboard" element={<Dashboard />} /> */}
+      <Route path="Dashboard" element={<Dashboard />} />
+      
     </Route>
   )
 );
