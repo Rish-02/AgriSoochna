@@ -4,10 +4,12 @@ import { FcGoogle } from "react-icons/fc";
 import { useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
 const SignUp = () => {
+    const navigate = useNavigate();
     const [signupData, setSignupData] = useState({
         name: "",
         email: "",
@@ -46,10 +48,10 @@ const SignUp = () => {
             return;
         }
 
-        if (!isValidMobile(signupData.mobno)) {
-            toast.error("Invalid mobile number");
-            return;
-        }
+        // if (!isValidMobile(signupData.mobno)) {
+        //     toast.error("Invalid mobile number");
+        //     return;
+        // }
 
         if (signupData.password !== signupData.confirmPassword) {
             toast.error("Passwords do not match");
@@ -61,6 +63,7 @@ const SignUp = () => {
             const response = await axios.post("http://localhost:3000/api/signup", signupData);
             toast.success(response.data.message);
             console.log("Signup Success:", response.data);
+            navigate("/login")
         } catch (error) {
             toast.error(error.response?.data?.message || "Signup failed");
             console.error("Signup Error:", error);

@@ -92,8 +92,12 @@ import './Login.css';
 import { FcGoogle } from "react-icons/fc";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate();
+
     const [logindata, setLoginData] = useState({ email: "", password: "" });
     const [loading, setLoading] = useState(false);
 
@@ -124,6 +128,7 @@ const Login = () => {
             const response = await axios.post("http://localhost:3000/api/login", logindata);
             toast.success(response.data.message);
             console.log("Login Success:", response.data);
+            navigate("/dashboard")
         } catch (error) {
             toast.error(error.response?.data?.message || "Login failed");
             console.error("Login Error:", error);
