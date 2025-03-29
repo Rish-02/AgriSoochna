@@ -70,24 +70,16 @@ const Dashboard = () => {
           {/* Audience Retention Chart Placeholder */}
           <div className="chart-section">
             <h3>Audience Retention</h3>
-            <div className="chart-placeholder">Graph</div>
+            <div className="chart-placeholder"><img src="/Images/bar_graph.png" alt="" /></div>
           </div>
 
           {/* Latest Soochna */}
           <div className="latest-section">
             <h3>Latest Soochna</h3>
             <div className="latest-card">
-              <div className="profile-img-placeholder"></div>
-              <div>
-                <h4>video 1</h4>
-              </div>
+              <img src="/Images/static_img5.jpg" alt="" />
+              <p className="image-caption">Latest Update</p>
             </div>
-            {/* <div className="latest-card">
-              <div className="profile-img-placeholder"></div>
-              <div>
-                <h4>video 2</h4>
-              </div>
-            </div> */}
           </div>
         </div>
 
@@ -95,10 +87,22 @@ const Dashboard = () => {
         <div className="recommended-section">
           <h3>Recommended Soochna</h3>
           <div className="recommended-container">
-            <div className="video-placeholder">video 1 </div>
-            <div className="video-placeholder"> video 2</div>
-            <div className="video-placeholder">video 3</div>
-            <div className="video-placeholder">video 4 </div>
+            <div className="video-placeholder">
+              <img src="/Images/static_img1.jpg" alt="Video 1" />
+              <p className="image-caption">Video 1</p>
+            </div>
+            <div className="video-placeholder">
+              <img src="/Images/static_img2.jpg" alt="Video 2" />
+              <p className="image-caption">Video 2</p>
+            </div>
+            <div className="video-placeholder">
+              <img src="/Images/static_img3.jpg" alt="Video 3" />
+              <p className="image-caption">Video 3</p>
+            </div>
+            <div className="video-placeholder">
+              <img src="/Images/static_img4.jpg" alt="Video 4" />
+              <p className="image-caption">Video 4</p>
+            </div>
             {/* <div className="video-placeholder">video 5 </div> */}
           </div>
         </div>
