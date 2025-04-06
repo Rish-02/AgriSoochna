@@ -4,12 +4,8 @@ import { FcGoogle } from "react-icons/fc";
 import { useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
-
-import axios from "axios";
 
 const SignUp = () => {
-    const navigate = useNavigate();
     const [signupData, setSignupData] = useState({
         name: "",
         email: "",
@@ -17,8 +13,6 @@ const SignUp = () => {
         password: "",
         confirmPassword: "",
     });
-    const [loading, setLoading] = useState(false);
-
 
     const handleChange = (e) => {
         setSignupData({ ...signupData, [e.target.name]: e.target.value });
@@ -35,43 +29,32 @@ const SignUp = () => {
         return mobileRegex.test(mobileStr);
     };
 
-    const handleSignUp = async (e) => {
+    const handleSignUp = (e) => {
         e.preventDefault();
-    
-        if (signupData.name === "" || signupData.email === "" || signupData.mobno === "" || signupData.password === "" || signupData.confirmPassword === "") {
+
+        if (signupData.name === "" || signupData.email === "" || signupData.password === "" || signupData.confirmPassword === "") {
             toast.error("Fill all details");
             return;
         }
-    
+
         if (!isValidEmail(signupData.email)) {
             toast.error("Invalid email format");
             return;
         }
 
-        // if (!isValidMobile(signupData.mobno)) {
-        //     toast.error("Invalid mobile number");
-        //     return;
-        // }
+        if (!isValidMobile(signupData.mobno)) {
+            toast.error("Invalid mobile number");
+            return;
+        }
 
         if (signupData.password !== signupData.confirmPassword) {
             toast.error("Passwords do not match");
             return;
         }
-    
-        setLoading(true);
-        try {
-            const response = await axios.post("http://localhost:3000/api/signup", signupData);
-            toast.success(response.data.message);
-            console.log("Signup Success:", response.data);
-            navigate("/login")
-        } catch (error) {
-            toast.error(error.response?.data?.message || "Signup failed");
-            console.error("Signup Error:", error);
-        } finally {
-            setLoading(false);
-        }
+
+        console.log(`Sign Up Data: ${signupData.name}, ${signupData.email}, ${signupData.password}`);
+        toast.success("Sign Up Successful!");
     };
-    
 
     return (
         <div className="signup-container">
