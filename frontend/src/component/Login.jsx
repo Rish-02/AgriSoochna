@@ -66,19 +66,8 @@ const Login = () => {
                         <label>Email Id</label>
                         <input type="email" placeholder="Enter your email" value={logidata.email} name='email' onChange={handleChange} />
                         <label>Password</label>
-<<<<<<< HEAD
-                        <input 
-                            type="password" 
-                            placeholder="Enter your password" 
-                            value={logindata.password} 
-                            name="password" 
-                            onChange={handleChange} 
-                        />
-                        <p className='signup'>Don&apos;t Have an Account? <NavLink to="/signup">Sign Up</NavLink></p>
-=======
                         <input type="password" placeholder="Enter your password" value={logidata.password} name='password' onChange={handleChange} />
                         <p className='Signup'  >  Don&apos;t Have Account -- <NavLink to="/signup"    > SignUp </NavLink>  </p>
->>>>>>> 25c0a3d6b0f9d8c9ac08f1e71c901ef7931b3594
                     </div>
 
                     <button type="submit" className="login-button" onClick={handlelogin} >

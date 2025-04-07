@@ -10,12 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-<<<<<<< HEAD
     "backend": "file:",
-    "bcrypt": "^5.1.1",
-    "cors": "^2.8.5",
-=======
->>>>>>> 25c0a3d6b0f9d8c9ac08f1e71c901ef7931b3594
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongoose": "^8.12.1",
