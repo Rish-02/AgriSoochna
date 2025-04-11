@@ -165,7 +165,7 @@ const Login = () => {
                             name="password" 
                             onChange={handleChange} 
                         />
-                        <p className='signup'>Don't Have an Account? <NavLink to="/signup">Sign Up</NavLink></p>
+                        <p className='signup'>Don&apos;t Have an Account? <NavLink to="/signup">Sign Up</NavLink></p>
                     </div>
                     <button type="submit" className="login-button" disabled={loading}>
                         {loading ? "Logging in..." : "Log In"}
