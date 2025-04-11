@@ -48,10 +48,10 @@ const SignUp = () => {
             return;
         }
 
-        // if (!isValidMobile(signupData.mobno)) {
-        //     toast.error("Invalid mobile number");
-        //     return;
-        // }
+        if (!isValidMobile(signupData.mobno)) {
+            toast.error("Invalid mobile number");
+            return;
+        }
 
         if (signupData.password !== signupData.confirmPassword) {
             toast.error("Passwords do not match");
