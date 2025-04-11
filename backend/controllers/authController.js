@@ -130,9 +130,9 @@ export async function signup(req, res) {
 export async function dashboard(req, res) {
 //   const token = req.headers["authorization"];
 //add func validation for loggedIN
-  if (!token) {
-    return res.status(401).json({ message: "Unauthorized." });
-  }
+  // if (!token) {
+  //   return res.status(401).json({ message: "Unauthorized." });
+  // }
 
   try {
     // const decoded = jwt.verify(token, JWT_SECRET);
