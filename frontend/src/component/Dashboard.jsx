@@ -315,6 +315,7 @@ const Dashboard = () => {
   const [recommendedVideos, setRecommendedVideos] = useState([]);
   const [latestVideo, setLatestVideo] = useState(null);
   const [modalVideoUrl, setModalVideoUrl] = useState("");
+  const [modalVideoThumb, setModalVideoThumb] = useState("");
   const [loading, setLoading] = useState(false);
   const [dashboardStats, setDashboardStats] = useState({
     userCount: 0,
@@ -348,24 +349,30 @@ const Dashboard = () => {
     }
   };
 
-  // const fetchRecommendedVideos = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const response = await axios.get("http://localhost:5000/api/recommended-videos");
-  //     if (response.data && response.data.length > 0) {
-  //       setRecommendedVideos(response.data);
-  //     }
-  //   } catch (error) {
-  //     toast.warn("Showing static recommended videos");
-  //     console.error("Recommended Videos Fetch Error:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const fetchRecommendedVideos = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get("http://localhost:3000/api/recommended");
+      if (response.data && response.data.length > 0) {
+        setRecommendedVideos(response.data);
+      }
+      console.log(response.data);
+    } catch (error) {
+      toast.warn("Showing static recommended videos");
+      console.error("Recommended Videos Fetch Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const setVideoparameter = async (videoUrl,thumbnail)=>{
+    setModalVideoThumb(thumbnail);
+    setModalVideoUrl(videoUrl);
+  }
 
   useEffect(() => {
     fetchLatestVideo();
-    // fetchRecommendedVideos();
+    fetchRecommendedVideos();
     fetchDashboardStats();
   }, []);
 
@@ -441,7 +448,7 @@ const Dashboard = () => {
                     className="play-icon latest-play"
                     data-bs-toggle="modal"
                     data-bs-target="#videoModal"
-                    onClick={() => setModalVideoUrl(latestVideo.videoUrl)}
+                    onClick={() => setModalVideoUrl(latestVideo.link)}
                   />
                   <p className="image-caption">{latestVideo.title}</p>
                 </>
@@ -469,12 +476,12 @@ const Dashboard = () => {
             ) : recommendedVideos.length > 0 ? (
               recommendedVideos.map((video, index) => (
                 <div key={index} className="video-placeholder">
-                  <img src={video.thumbnail} alt={video.title} />
+                 <img src={`/Images/static_img${index+1}.jpg`} alt={video.title} />
                   <FaPlay
                     className="play-icon"
                     data-bs-toggle="modal"
                     data-bs-target="#videoModal"
-                    onClick={() => setModalVideoUrl(video.videoUrl)}
+                    onClick={() => setVideoparameter(video.link,`../../public/Images/static_img${index+1}.jpg`)}
                   />
                   <p className="image-caption">{video.title}</p>
                 </div>
@@ -504,15 +511,17 @@ const Dashboard = () => {
           <div className="modal-content bg-dark">
             <div className="modal-body p-0">
               <video
-                id="modalVideo"
+                // id="modalVideo"
                 width="100%"
                 controls
+                crossOrigin="anonymous"
+                poster={modalVideoThumb}
                 style={{ maxHeight: '80vh', objectFit: 'cover' }}
-              >
-                <source
-                  src={modalVideoUrl && modalVideoUrl !== "" ? modalVideoUrl : "/Videos/sample.mp4"}
+              
+                  src={modalVideoUrl}
+                  // src="/Videos/sample.mp4"
                   type="video/mp4"
-                />
+                >
                 Your browser does not support the video tag.
               </video>
             </div>

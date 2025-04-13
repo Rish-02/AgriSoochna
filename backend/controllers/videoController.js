@@ -10,7 +10,7 @@ import dotenv from "dotenv";
 dotenv.config();
 export async function createVideo(req, res) {
   try {
-    let link = "somelink"
+    let link = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
     let views = 0
     let date = new Date();
     console.log(link, views,date);
@@ -37,14 +37,15 @@ export async function allVideos(req,res) {
       }  
 };
 
-export async function first5Videos(req,res) {
-    try {
-        const videos = await Video.find()
-          .sort({ date: -1 })  // Descending order by date
-          .limit(5);                // Limit to first 5
-    
-        res.status(200).json(videos);
-      } catch (err) {
-        res.status(500).json({ message: 'Server error', error: err.message });
-      }
+export async function recommended(req, res) {
+  try {
+    const videos = await Video.find()
+      .sort({ date: -1 }) // Descending order by date
+      .skip(1)            // Skip the latest video
+      .limit(4);          // Get the next 4
+
+    res.status(200).json(videos);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
 }
