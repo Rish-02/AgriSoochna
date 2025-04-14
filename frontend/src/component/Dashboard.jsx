@@ -290,7 +290,9 @@ import { IoIosNotifications } from "react-icons/io";
 import { FaPlay } from "react-icons/fa";
 import { FaClock, FaCalendarAlt, FaFileAlt, FaUsers } from "react-icons/fa";
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Dashboard = () => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -323,6 +325,11 @@ const Dashboard = () => {
     totalVideoViews: 0,
     usersActiveToday: 0,
   });
+  const [videoLanguage, setVideoLanguage] = useState("English");
+  const [newVideoUploaded, setNewVideoUploaded] = useState(false);  // Track if new video uploaded
+  const [notificationMessage, setNotificationMessage] = useState('');  // Store notification message
+
+
 
   const fetchDashboardStats = async () => {
     try {
@@ -340,6 +347,10 @@ const Dashboard = () => {
       const response = await axios.get("http://localhost:3000/api/latestvideo");
       if (response.data) {
         setLatestVideo(response.data);
+        if (!newVideoUploaded) {
+          setNewVideoUploaded(true); // New video uploaded, set the state to true
+          setNotificationMessage(`New video uploaded: ${response.data.title}`);
+        }
       }
     } catch (error) {
       toast.warn("Showing static latest video");
@@ -365,7 +376,7 @@ const Dashboard = () => {
     }
   };
 
-  const setVideoparameter = async (videoUrl,thumbnail)=>{
+  const setVideoparameter = async (videoUrl, thumbnail) => {
     setModalVideoThumb(thumbnail);
     setModalVideoUrl(videoUrl);
   }
@@ -389,6 +400,60 @@ const Dashboard = () => {
     }
   }, []);
 
+
+
+  const [recommendedTitles, setRecommendedTitles] = useState([
+    "Meeting between Union Agriculture Minister Shri Shivraj Singh Chouhan and Israel's Minister of Agriculture and Food Security Mr. Avi Dicter",
+    "Union Minister Shri Shivraj Singh Chouhan to attend third BIMSTEC Ministerial meeting on Agriculture tomorrow at Kathmandu, Nepal",
+    "Remunerative Price of Perishable Agriculture Produces",
+    "Promotion of New Technologies in Agriculture"
+  ]);
+
+
+
+  const [userInfo, setUserInfo] = useState({ name: "", email: "" });
+
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/getUserInfo");
+      setUserInfo(response.data);
+    } catch (error) {
+      toast.error("Failed to fetch user info");
+      console.error("User Info Fetch Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+
+
+  const handleLogout = () => {
+    // Clear session/local storage
+    localStorage.clear();
+    sessionStorage.clear();
+
+
+    setUserInfo({ name: "", email: "" });
+
+    toast.success("Logged out successfully!");
+
+    window.location.href = '/';
+    console.log("User logged out");
+  };
+
+  const handleNotificationClick = () => {
+    if (newVideoUploaded) {
+      toast.info(notificationMessage); // Show notification message when clicked
+      setNewVideoUploaded(false); // Reset after viewing
+    }
+  };
+  
+
+
+
+
+
   return (
     <div className="dashboard-container">
       <div className="sidebar">
@@ -404,8 +469,23 @@ const Dashboard = () => {
           </div>
           <input type="text" placeholder="🔍 Search" className="search-bar" />
           <div className="header-icons">
-            <IoIosNotifications className="notification" />
-            <img src="/Images/user.png" alt="User" className="user-logo" />
+            <div
+              onClick={handleNotificationClick}
+              className="notification-container"
+            >
+              <IoIosNotifications className="notification" />
+              {newVideoUploaded && (
+                <span className="red-dot">!</span>
+              )}
+            </div>
+            <img
+              src="/Images/user.png"
+              alt="User"
+              className="user-logo"
+              data-bs-toggle="modal"
+              data-bs-target="#logoutModal"
+            />
+
           </div>
         </div>
 
@@ -443,7 +523,7 @@ const Dashboard = () => {
                 <p>Loading...</p>
               ) : latestVideo ? (
                 <>
-                  <img src={latestVideo.thumbnail} alt="Latest Video" />
+                  <img src={latestVideo.thumbnail ? latestVideo.thumbnail : "/Images/static_img5.jpg"} alt="Latest Video" />
                   <FaPlay
                     className="play-icon latest-play"
                     data-bs-toggle="modal"
@@ -476,14 +556,14 @@ const Dashboard = () => {
             ) : recommendedVideos.length > 0 ? (
               recommendedVideos.map((video, index) => (
                 <div key={index} className="video-placeholder">
-                 <img src={`/Images/static_img${index+1}.jpg`} alt={video.title} />
+                  <img src={`/Images/static_img${index + 1}.jpg`} alt={video.title} />
                   <FaPlay
                     className="play-icon"
                     data-bs-toggle="modal"
                     data-bs-target="#videoModal"
-                    onClick={() => setVideoparameter(video.link,`../../public/Images/static_img${index+1}.jpg`)}
+                    onClick={() => setVideoparameter(video.link, `../../public/Images/static_img${index + 1}.jpg`)}
                   />
-                  <p className="image-caption">{video.title}</p>
+                  <p className="image-caption">{recommendedTitles[index]}</p>
                 </div>
               ))
             ) : (
@@ -497,7 +577,7 @@ const Dashboard = () => {
                       data-bs-target="#videoModal"
                       onClick={() => setModalVideoUrl("/Videos/sample.mp4")}
                     />
-                    <p className="image-caption">Video {n}</p>
+                    <p className="image-caption">Video</p>
                   </div>
                 ))}
               </>
@@ -506,25 +586,98 @@ const Dashboard = () => {
         </div>
       </div>
 
+
+      <div
+        className="modal fade"
+        id="logoutModal"
+        tabIndex="-1"
+        aria-labelledby="logoutModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-sm modal-dialog-end">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="logoutModalLabel">Account</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body text-center">
+              <img
+                src="/Images/user.png"
+                alt="User"
+                className="img-thumbnail rounded-circle mb-2"
+                style={{ width: "80px", height: "80px" }}
+              />
+              <h6 className="mb-0">{userInfo.name || "Samyak Jain"}</h6>
+              <small className="text-muted">{userInfo.email || "samyakjainkittu@gmail.com"}</small>
+            </div>
+
+            <div className="modal-footer">
+              <button
+                className="btn btn-danger w-100"
+                onClick={() => handleLogout()}
+                data-bs-dismiss="modal"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
       <div className="modal fade" id="videoModal" tabIndex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered modal-xl">
           <div className="modal-content bg-dark">
             <div className="modal-body p-0">
               <video
-                // id="modalVideo"
+                id="modalVideo"
                 width="100%"
                 controls
                 crossOrigin="anonymous"
                 poster={modalVideoThumb}
                 style={{ maxHeight: '80vh', objectFit: 'cover' }}
-              
-                  src={modalVideoUrl}
-                  // src="/Videos/sample.mp4"
-                  type="video/mp4"
-                >
+
+                src={modalVideoUrl}
+                // src="/Videos/sample.mp4"
+                type="video/mp4"
+              >
                 Your browser does not support the video tag.
               </video>
             </div>
+
+            <div className="modal-header bg-dark text-white">
+              <div className="d-flex justify-content-between align-items-center w-100">
+                {/* Source (left-aligned) */}
+                <div className="d-flex align-items-center">
+                  <strong className="me-2">Source:</strong>
+                  <span className="text-info">www.pib.gov.in</span>
+                </div>
+
+                {/* Language Selection (right-aligned) */}
+                <div className="d-flex align-items-center">
+                  <label htmlFor="videoLangSelect" className="me-2 mb-0">Language:</label>
+                  <select
+                    id="videoLangSelect"
+                    className="form-select form-select-sm bg-dark text-white border-secondary"
+                    value={videoLanguage}
+                    onChange={(e) => {
+                      setVideoLanguage(e.target.value);
+                      toast.info(`Language set to ${e.target.value}`);
+                    }}
+                  >
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
             <button
               type="button"
               className="btn-close btn-close-white position-absolute top-0 end-0 m-3"
@@ -534,7 +687,9 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
+
   );
 };
 

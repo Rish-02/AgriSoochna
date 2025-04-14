@@ -311,3 +311,41 @@ export async function dashboard(req, res) {
 //     });
 //   }
 // };
+
+
+
+
+
+
+// xports.getUserInfo = async (req, res) => {
+//   try {
+//     const user = await User.findById(req.user.id).select("name email");
+
+//     if (!user) {
+//       return res.status(404).json({ success: false, message: "User not found" });
+//     }
+
+//     res.json({
+//       name: user.name,
+//       email: user.email,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching user info:", error);
+//     res.status(500).json({ success: false, message: "Internal server error" });
+//   }
+// };
+
+// export async function getUserInfo(req, res) {
+//   try { 
+
+//     const user = await User.findById(userId).select("-password");
+//     if (!user) {
+//       return res.status(404).json({ success: false, message: "User not found" });
+//     }
+
+//     return res.status(200).json({ success: true, user });
+//   } catch (error) {
+//     console.error("Error fetching user info:", error);
+//     return res.status(500).json({ success: false, message: "Server error" });
+//   }
+// }
