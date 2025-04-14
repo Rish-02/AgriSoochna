@@ -337,6 +337,7 @@ export async function dashboard(req, res) {
 
 // export async function getUserInfo(req, res) {
 //   try { 
+//     const user = await User.findById(req.user.id).select("name email");
 
 //     const user = await User.findById(userId).select("-password");
 //     if (!user) {
