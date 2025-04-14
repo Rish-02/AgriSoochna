@@ -1,6 +1,8 @@
 import express from "express";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
+import videoRoutes from "./routes/videoRoutes.js";
+import homeRoutes from "./routes/homeRoute.js";
 import cors from "cors";
 
 // const app = express();
@@ -15,6 +17,8 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cors());
 
 app.use("/api", authRoutes);
+app.use("/api", homeRoutes);
+app.use("/api", videoRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
