@@ -37,9 +37,9 @@ import dotenv from "dotenv";
 dotenv.config();
 export async function signup(req, res) {
   try {
-    const { name, email, password, mobno,confirmPassword } = req.body;
+    const { name, email, password, mobno, confirmPassword } = req.body;
 
-    if (!name || !email || !password ||!mobno || !confirmPassword) {
+    if (!name || !email || !password || !mobno || !confirmPassword) {
       return res.status(400).json({ success: false, message: "All fields are required" });
     }
 
@@ -99,10 +99,13 @@ export async function signup(req, res) {
 //   }
 // }
 // exports.login = async (req, res) => {
-  export async function login(req, res) {
+
+
+
+export async function login(req, res) {
   try {
     const { email, password } = req.body;
-    
+
     if (!email || !password) {
       return res.status(400).json({ success: false, message: "Email and password required" });
     }
@@ -113,23 +116,63 @@ export async function signup(req, res) {
       return res.status(401).json({ success: false, message: "User not found" });
     }
 
-    if (await bcrypt.compare(password, existingUser.password)) {
-      const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, { expiresIn: "2h" });
+    const isMatch = await bcrypt.compare(password, existingUser.password);
 
-      return res.status(200).json({ success: true, token, message: "Login successful" });
-    } else {
+    if (!isMatch) {
       return res.status(403).json({ success: false, message: "Invalid password" });
     }
+
+    // ✅ Store user info in session
+    req.session.user = {
+      id: existingUser._id,
+      name: existingUser.name,
+      email: existingUser.email,
+    };
+
+    // console.log("Session after login:", req.session); 
+
+    return res.status(200).json({ success: true, message: "Login successful" });
+
   } catch (error) {
-    console.error("Login error:", error); // 🔴 LOGGING ERROR FOR DEBUGGING
+    console.error("Login error:", error);
     return res.status(500).json({ success: false, message: "Server error" });
   }
-};
+}
+
+
+
+
+//   export async function login(req, res) {
+//   try {
+//     const { email, password } = req.body;
+
+//     if (!email || !password) {
+//       return res.status(400).json({ success: false, message: "Email and password required" });
+//     }
+
+//     const existingUser = await User.findOne({ email });
+
+//     if (!existingUser) {
+//       return res.status(401).json({ success: false, message: "User not found" });
+//     }
+
+//     if (await bcrypt.compare(password, existingUser.password)) {
+//       const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, { expiresIn: "2h" });
+
+//       return res.status(200).json({ success: true, token, message: "Login successful" });
+//     } else {
+//       return res.status(403).json({ success: false, message: "Invalid password" });
+//     }
+//   } catch (error) {
+//     console.error("Login error:", error); // 🔴 LOGGING ERROR FOR DEBUGGING
+//     return res.status(500).json({ success: false, message: "Server error" });
+//   }
+// };
 
 
 export async function dashboard(req, res) {
-//   const token = req.headers["authorization"];
-//add func validation for loggedIN
+  //   const token = req.headers["authorization"];
+  //add func validation for loggedIN
   // if (!token) {
   //   return res.status(401).json({ message: "Unauthorized." });
   // }
@@ -281,7 +324,7 @@ export async function dashboard(req, res) {
 //         expiresIn: "2h",
 //       });
 //         const userObject = existingUser.toObject();
- 
+
 
 //       userObject.token = token;
 //       userObject.password = undefined;
@@ -350,3 +393,32 @@ export async function dashboard(req, res) {
 //     return res.status(500).json({ success: false, message: "Server error" });
 //   }
 // }
+
+
+
+
+export const getUserInfo = async (req, res) => {
+  // console.log("Full Session Object:", req.session);  // Log complete session
+
+  // First check if session exists at all
+  if (!req.session || !req.session.user || !req.session.user.id) {
+    console.log("User is not logged in.");
+    return res.status(401).json({ success: false, message: "Not logged in" });
+  }
+
+  try {
+    console.log("Fetching user from DB with ID:", req.session.user.id);
+    const user = await User.findById(req.session.user.id).select("name email");
+    
+    if (!user) {
+      console.log("User not found in database");
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    return res.status(200).json({ name: user.name, email: user.email });
+  } catch (error) {
+    console.error("Fetch user info error:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+

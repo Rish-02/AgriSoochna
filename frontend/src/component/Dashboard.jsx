@@ -415,18 +415,22 @@ const Dashboard = () => {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/getUserInfo");
+      const response = await axios.get("http://localhost:3000/api/getUserInfo", {
+        withCredentials: true
+      });
+
+      console.log("Fetched user data:", response.data); // ✅ Add this
       setUserInfo(response.data);
     } catch (error) {
       toast.error("Failed to fetch user info");
-      console.error("User Info Fetch Error:", error);
+      console.error("User Info Fetch Error:", error.response?.data || error.message);
     }
   };
+
 
   useEffect(() => {
     fetchUserInfo();
   }, []);
-
 
   const handleLogout = () => {
     // Clear session/local storage
@@ -448,7 +452,7 @@ const Dashboard = () => {
       setNewVideoUploaded(false); // Reset after viewing
     }
   };
-  
+
 
 
 
@@ -458,7 +462,6 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <div className="sidebar">
         <img src="/Images/logo2.png" alt="Logo" className="sidebar-logo" />
-        <button onClick={handleChange}>add video</button>
       </div>
 
       <div className="dashboard-main">
@@ -614,6 +617,7 @@ const Dashboard = () => {
               />
               <h6 className="mb-0">{userInfo.name || "Samyak Jain"}</h6>
               <small className="text-muted">{userInfo.email || "samyakjainkittu@gmail.com"}</small>
+
             </div>
 
             <div className="modal-footer">

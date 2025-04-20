@@ -125,7 +125,7 @@ const Login = () => {
 
         setLoading(true);
         try {
-            const response = await axios.post("http://localhost:3000/api/login", logindata);
+            const response = await axios.post("http://localhost:3000/api/login", logindata ,  { withCredentials: true } );
             toast.success(response.data.message);
             console.log("Login Success:", response.data);
             navigate("/dashboard")

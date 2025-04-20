@@ -4,6 +4,8 @@ import authRoutes from "./routes/authRoutes.js";
 import videoRoutes from "./routes/videoRoutes.js";
 import homeRoutes from "./routes/homeRoute.js";
 import cors from "cors";
+import session from "express-session";
+import cookieParser from "cookie-parser"; 
 
 // const app = express();
 
@@ -14,7 +16,28 @@ app.use(express.json()); // Use Express' built-in JSON parser
 
 connectDB();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-app.use(cors());
+// app.use(cors());
+
+
+
+app.use(cookieParser());
+
+app.use(session({
+  secret: "yourSecretKey",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false, // true if using HTTPS
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
+  },
+}));
+
+
+
+
+
+
 
 app.use("/api", authRoutes);
 app.use("/api", homeRoutes);
