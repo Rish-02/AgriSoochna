@@ -663,6 +663,15 @@ const Dashboard = () => {
                   <span className="text-info">www.pib.gov.in</span>
                 </div>
 
+
+                <button
+                  className="btn btn-sm btn-outline-info"
+                  data-bs-toggle="modal"
+                  data-bs-target="#askQuestionModal"
+                >
+                  Ask Question
+                </button>
+
                 {/* Language Selection (right-aligned) */}
                 <div className="d-flex align-items-center">
                   <label htmlFor="videoLangSelect" className="me-2 mb-0">Language:</label>
@@ -689,8 +698,89 @@ const Dashboard = () => {
               aria-label="Close"
             ></button>
           </div>
+
+
+
         </div>
       </div>
+
+      <div
+        className="modal fade"
+        id="askQuestionModal"
+        tabIndex="-1"
+        aria-labelledby="askQuestionModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="askQuestionModalLabel">Ask a Question</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={async (e) => {
+                e.preventDefault();
+                const question = e.target.question.value;
+
+                try {
+                  await fetch("https://script.google.com/macros/s/AKfycbzpFYY3HwdbRWGZA8BKRex-vL-ibe4KuqEY4IjW33kASYRC9AAcAb7w7q5U_mydx0PfXQ/exec", {
+                    method: "POST",
+                    body: JSON.stringify({
+                      name: userInfo.name || "Anonymous",
+                      email: userInfo.email || "Not provided",
+                      question: question
+                    }),
+                    headers: {
+                      "Content-Type": "application/json"
+                    },
+                    mode: "no-cors"  // Add this line
+                  });
+
+                  toast.success("Question submitted!");
+                  e.target.reset();
+                  const closeBtn = document.querySelector('#askQuestionModal .btn-close');
+                  closeBtn && closeBtn.click();
+                } catch (err) {
+                  toast.error("Failed to submit question");
+                  console.error("Error:", err);
+                }
+              }}>
+
+
+                <div className="mb-3">
+                  <label htmlFor="questionText" className="form-label">Your Question</label>
+                  <textarea
+                    className="form-control"
+                    name="question"
+                    id="questionText"
+                    rows="4"
+                    required
+                    placeholder="Type your question here..."
+                  ></textarea>
+                </div>
+                <button type="submit" className="btn btn-primary w-100">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
 
