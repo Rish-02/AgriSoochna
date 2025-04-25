@@ -290,6 +290,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { IoIosNotifications } from "react-icons/io";
 import { FaPlay } from "react-icons/fa";
 import { FaClock, FaCalendarAlt, FaFileAlt, FaUsers } from "react-icons/fa";
+import { BsTranslate } from "react-icons/bs";
 // import { FaSquareWhatsapp } from "react-icons/fa6";
 import { HiUserGroup } from "react-icons/hi2"
 import axios from 'axios';
@@ -458,6 +459,48 @@ const Dashboard = () => {
 
 
 
+  const [language, setLanguage] = useState('en');
+
+
+  const translations = {
+    en: {
+      welcome: "Welcome!",
+      totalVideoViews: "Total Video Views",
+      users: "Users",
+      totalVideos: "Total Videos",
+      dailyActiveUsers: "Daily Active Users",
+      latestSoochna: "Latest Soochna",
+      recommendedSoochna: "Recommended Soochna",
+    },
+    hi: {
+      welcome: "स्वागत है!",
+      totalVideoViews: "",
+      users: "",
+      totalVideos: " ",
+      dailyActiveUsers: "",
+      latestSoochna: "",
+      recommendedSoochna: "",
+    },
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <div className="dashboard-container">
@@ -478,7 +521,7 @@ const Dashboard = () => {
       <div className="dashboard-main">
         <div className="header">
           <div>
-            <h2 className='welcome'>Welcome!</h2>
+            <h2 className='welcome'>{translations[language].welcome}</h2>
             <p className='time'>{currentDateTime.toLocaleString()}</p>
           </div>
 
@@ -495,8 +538,17 @@ const Dashboard = () => {
 
 
 
-          <input type="text" placeholder="🔍Search" className="search-bar" />
+          {/* <input type="text" placeholder="🔍Search" className="search-bar" /> */}
           <div className="header-icons">
+
+            <button
+              className="trnslate-btn"
+              data-bs-toggle="modal"
+              data-bs-target="#languageModal"
+            >
+            <BsTranslate size={28} />
+            </button>
+
 
             <button
               type="button"
@@ -653,6 +705,8 @@ const Dashboard = () => {
               <h6 className="mb-0">{userInfo.name || "Samyak Jain"}</h6>
               <small className="text-muted">{userInfo.email || "samyakjainkittu@gmail.com"}</small>
 
+
+
             </div>
 
             <div className="modal-footer">
@@ -667,6 +721,69 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+
+
+      <div
+  className="modal fade"
+  id="languageModal"
+  tabIndex="-1"
+  aria-labelledby="languageModalLabel"
+  aria-hidden="true"
+>
+  <div className="modal-dialog modal-sm modal-dialog-centered">
+    <div className="modal-content rounded-4 shadow-sm">
+      <div className="modal-header bg-primary text-white rounded-top-4">
+        <h5 className="modal-title fw-bold" id="languageModalLabel">
+          🌐 Select Language
+        </h5>
+        <button
+          type="button"
+          className="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div className="modal-body">
+        <select
+          className="form-select form-select-sm"
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+        >
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+         
+        </select>
+      </div>
+      <div className="modal-footer justify-content-center border-0">
+        <button
+          type="button"
+          className="btn btn-primary btn-sm px-4"
+
+          data-bs-dismiss="modal"
+        >
+          OK
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -69,7 +69,21 @@ body {
 
 }
 
+.trnslate-btn{
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 3px;
+  text-align: center;
+  justify-content: center;
+  padding: 10px;
 
+}
 
 
 
@@ -110,7 +124,7 @@ body {
 }
 
 .marquee-container {
-  width: 350px;
+  width: 550px;
   overflow: hidden;
   white-space: nowrap;
   cursor: pointer;
@@ -464,4 +478,17 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0;
+}
+
+
+
+
+.lang-change{
+  display: flex;
+  gap: 8px;
+
+}
+
+.lang-select{
+  padding: 5px;
 }
