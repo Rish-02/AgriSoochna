@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 // import { useEffect, useState } from 'react';
 // import './Dashboard.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -289,6 +290,8 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { IoIosNotifications } from "react-icons/io";
 import { FaPlay } from "react-icons/fa";
 import { FaClock, FaCalendarAlt, FaFileAlt, FaUsers } from "react-icons/fa";
+// import { FaSquareWhatsapp } from "react-icons/fa6";
+import { HiUserGroup } from "react-icons/hi2"
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -456,12 +459,20 @@ const Dashboard = () => {
 
 
 
-
-
   return (
     <div className="dashboard-container">
       <div className="sidebar">
         <img src="/Images/logo2.png" alt="Logo" className="sidebar-logo" />
+        {/* <button
+          type="button"
+          className="whatsapp-button"
+          data-bs-toggle="modal"
+          data-bs-target="#whatsappModal"
+        >
+          <HiUserGroup  size={30} />
+        </button> */}
+
+
       </div>
 
       <div className="dashboard-main">
@@ -470,8 +481,32 @@ const Dashboard = () => {
             <h2 className='welcome'>Welcome!</h2>
             <p className='time'>{currentDateTime.toLocaleString()}</p>
           </div>
-          <input type="text" placeholder="🔍 Search" className="search-bar" />
+
+          <div
+            className="marquee-container"
+            data-bs-toggle="modal"
+            data-bs-target="#whatsappModal"
+          >
+            <marquee behavior="scroll" direction="left" scrollamount="4">
+              📢 Join our WhatsApp community for instant updates!
+            </marquee>
+          </div>
+
+
+
+
+          <input type="text" placeholder="🔍Search" className="search-bar" />
           <div className="header-icons">
+
+            <button
+              type="button"
+              className="whatsapp-button"
+              data-bs-toggle="modal"
+              data-bs-target="#whatsappModal"
+            >
+              {/* <FaSquareWhatsapp size={40} /> */}
+              <HiUserGroup size={30} />
+            </button>
             <div
               onClick={handleNotificationClick}
               className="notification-container"
@@ -660,7 +695,10 @@ const Dashboard = () => {
                 {/* Source (left-aligned) */}
                 <div className="d-flex align-items-center">
                   <strong className="me-2">Source:</strong>
-                  <span className="text-info">www.pib.gov.in</span>
+                  <a className="text-info" style={{ cursor: 'pointer' }}
+                    href='https://pib.gov.in'
+                    target="_blank"
+                  >www.pib.gov.in</a>
                 </div>
 
 
@@ -765,6 +803,47 @@ const Dashboard = () => {
                 </div>
                 <button type="submit" className="btn btn-primary w-100">Submit</button>
               </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="modal fade"
+        id="whatsappModal"
+        tabIndex="-1"
+        aria-labelledby="whatsappModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content text-center p-3">
+            <div className="modal-header">
+              <div className='whatsapp-header'  >
+                <h5 className="modal-title" id="whatsappModalLabel">Join Our WhatsApp community  </h5>
+                <p className="text-muted" style={{ fontSize: "16px", marginBottom: "0px" }}>
+                  -to get faster notiffication on whatsapp.
+                </p>
+                <p className="text-muted" style={{ fontSize: "14px" }}>
+                  (Your number will remain private.)
+                </p>
+              </div>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body whatsapp  ">
+              <img
+                src="Images/QR.png"
+                alt="WhatsApp QR Code"
+                className="img-fluid mb-3"
+                style={{ maxWidth: "250px", margin: "0 auto" }}
+              />
+              <a
+                href="https://chat.whatsapp.com/EyWpFXgJUuPBNnyHSFrB0Q"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-success"
+              >
+                Join via Link
+              </a>
             </div>
           </div>
         </div>
