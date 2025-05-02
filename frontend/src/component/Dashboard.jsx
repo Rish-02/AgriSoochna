@@ -465,23 +465,40 @@ const Dashboard = () => {
   const translations = {
     en: {
       welcome: "Welcome!",
+      Runningmsg: "📢 Join our WhatsApp community for instant updates!",
       totalVideoViews: "Total Video Views",
       users: "Users",
       totalVideos: "Total Videos",
       dailyActiveUsers: "Daily Active Users",
       latestSoochna: "Latest Soochna",
       recommendedSoochna: "Recommended Soochna",
+      AudienceRetention: "Audience Retention",
+      AskaQuestion: "Ask a Question",
+      YourQuestion: "Your Question",
+      Joincommunity: "Join Our WhatsApp community",
+      notifficationwhatsapp: "-to get faster notiffication on whatsapp.",
+      securemsg: "(Your number will remain secure & private.)",
+      JoinLink: "Join via Link"
     },
     hi: {
       welcome: "स्वागत है!",
-      totalVideoViews: "",
-      users: "",
-      totalVideos: " ",
-      dailyActiveUsers: "",
-      latestSoochna: "",
-      recommendedSoochna: "",
+      Runningmsg: "📢 हमारे व्हाट्सएप समुदाय से जुड़ें ताज़ा अपडेट्स के लिए!",
+      totalVideoViews: "कुल वीडियो दृश्य",
+      users: "उपयोगकर्ता",
+      totalVideos: "कुल वीडियो",
+      dailyActiveUsers: "दैनिक सक्रिय उपयोगकर्ता",
+      latestSoochna: "ताज़ा सूचना",
+      recommendedSoochna: "अनुशंसित सुझाव",
+      AudienceRetention: "दर्शक प्रतिधारण",
+      AskaQuestion: "प्रश्न पूछें",
+      YourQuestion: "आपका प्रश्न",
+      Joincommunity: "हमारे व्हाट्सएप समुदाय में शामिल हों",
+      notifficationwhatsapp: "-व्हाट्सएप पर तेजी से अधिसूचना प्राप्त करने के लिए।",
+      securemsg: "(आपका नंबर सुरक्षित एवं निजी रहेगा।)",
+      JoinLink: "लिंक के माध्यम से जुड़ें"
     },
   };
+
 
 
 
@@ -531,7 +548,7 @@ const Dashboard = () => {
             data-bs-target="#whatsappModal"
           >
             <marquee behavior="scroll" direction="left" scrollamount="4">
-              📢 Join our WhatsApp community for instant updates!
+              {translations[language].Runningmsg}
             </marquee>
           </div>
 
@@ -546,7 +563,7 @@ const Dashboard = () => {
               data-bs-toggle="modal"
               data-bs-target="#languageModal"
             >
-            <BsTranslate size={28} />
+              <BsTranslate size={28} />
             </button>
 
 
@@ -581,33 +598,33 @@ const Dashboard = () => {
 
         <div className="stats-container">
           <div className="card">
-            <div className="card-title">Total Video Views <FaClock className="icon" /></div>
+            <div className="card-title">{translations[language].totalVideos}<FaClock className="icon" /></div>
             <h2 className="card-value">{dashboardStats.totalVideoViews.toLocaleString()}</h2>
           </div>
           <div className="card">
-            <div className="card-title">Users <FaCalendarAlt className="icon" /></div>
+            <div className="card-title">{translations[language].users} <FaCalendarAlt className="icon" /></div>
             <h2 className="card-value">{dashboardStats.userCount.toLocaleString()}</h2>
           </div>
           <div className="card">
-            <div className="card-title">Total Videos <FaFileAlt className="icon" /></div>
+            <div className="card-title">{translations[language].totalVideos}<FaFileAlt className="icon" /></div>
             <h2 className="card-value">{dashboardStats.videoCount.toLocaleString()}</h2>
           </div>
           <div className="card">
-            <div className="card-title">Daily Active Users <FaUsers className="icon" /></div>
+            <div className="card-title">{translations[language].dailyActiveUsers} <FaUsers className="icon" /></div>
             <h2 className="card-value">{dashboardStats.usersActiveToday.toLocaleString()}</h2>
           </div>
         </div>
 
         <div className="middle">
           <div className="chart-section">
-            <h3>Audience Retention</h3>
+            <h3>{translations[language].AudienceRetention}</h3>
             <div className="chart-placeholder">
               <img src="/Images/bar_graph.png" alt="" />
             </div>
           </div>
 
           <div className="latest-section">
-            <h3>Latest Soochna</h3>
+            <h3>{translations[language].latestSoochna}</h3>
             <div className="latest-card">
               {loading ? (
                 <p>Loading...</p>
@@ -639,7 +656,7 @@ const Dashboard = () => {
         </div>
 
         <div className="recommended-section">
-          <h3>Recommended Soochna</h3>
+          <h3>{translations[language].recommendedSoochna}</h3>
           <div className="recommended-container">
             {loading ? (
               <p>Loading...</p>
@@ -725,51 +742,51 @@ const Dashboard = () => {
 
 
       <div
-  className="modal fade"
-  id="languageModal"
-  tabIndex="-1"
-  aria-labelledby="languageModalLabel"
-  aria-hidden="true"
->
-  <div className="modal-dialog modal-sm modal-dialog-centered">
-    <div className="modal-content rounded-4 shadow-sm">
-      <div className="modal-header bg-primary text-white rounded-top-4">
-        <h5 className="modal-title fw-bold" id="languageModalLabel">
-          🌐 Select Language
-        </h5>
-        <button
-          type="button"
-          className="btn-close btn-close-white"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
+        className="modal fade"
+        id="languageModal"
+        tabIndex="-1"
+        aria-labelledby="languageModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-sm modal-dialog-centered">
+          <div className="modal-content rounded-4 shadow-sm">
+            <div className="modal-header bg-primary text-white rounded-top-4">
+              <h5 className="modal-title fw-bold" id="languageModalLabel">
+                🌐 Select Language
+              </h5>
+              <button
+                type="button"
+                className="btn-close btn-close-white"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
 
-      <div className="modal-body">
-        <select
-          className="form-select form-select-sm"
-          value={language}
-          onChange={(e) => setLanguage(e.target.value)}
-        >
-          <option value="en">English</option>
-          <option value="hi">हिन्दी</option>
-         
-        </select>
-      </div>
-      <div className="modal-footer justify-content-center border-0">
-        <button
-          type="button"
-          className="btn btn-primary btn-sm px-4"
+            <div className="modal-body">
+              <select
+                className="form-select form-select-sm"
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+              >
+                <option value="en">English</option>
+                <option value="hi">हिन्दी</option>
 
-          data-bs-dismiss="modal"
-        >
-          OK
-        </button>
-      </div>
+              </select>
+            </div>
+            <div className="modal-footer justify-content-center border-0">
+              <button
+                type="button"
+                className="btn btn-primary btn-sm px-4"
 
-    </div>
-  </div>
-</div>
+                data-bs-dismiss="modal"
+              >
+                OK
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
 
 
 
@@ -869,7 +886,7 @@ const Dashboard = () => {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="askQuestionModalLabel">Ask a Question</h5>
+              <h5 className="modal-title" id="askQuestionModalLabel">{translations[language].AskaQuestion}</h5>
               <button
                 type="button"
                 className="btn-close"
@@ -908,7 +925,7 @@ const Dashboard = () => {
 
 
                 <div className="mb-3">
-                  <label htmlFor="questionText" className="form-label">Your Question</label>
+                  <label htmlFor="questionText" className="form-label">{translations[language].YourQuestion}</label>
                   <textarea
                     className="form-control"
                     name="question"
@@ -936,12 +953,12 @@ const Dashboard = () => {
           <div className="modal-content text-center p-3">
             <div className="modal-header">
               <div className='whatsapp-header'  >
-                <h5 className="modal-title" id="whatsappModalLabel">Join Our WhatsApp community  </h5>
+                <h5 className="modal-title" id="whatsappModalLabel">{translations[language].Joincommunity} </h5>
                 <p className="text-muted" style={{ fontSize: "16px", marginBottom: "0px" }}>
-                  -to get faster notiffication on whatsapp.
+                  {translations[language].notifficationwhatsapp}
                 </p>
                 <p className="text-muted" style={{ fontSize: "14px" }}>
-                  (Your number will remain private.)
+                  {translations[language].securemsg}
                 </p>
               </div>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -958,8 +975,7 @@ const Dashboard = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-success"
-              >
-                Join via Link
+              >{translations[language].JoinLink}
               </a>
             </div>
           </div>
