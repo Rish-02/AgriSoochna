@@ -282,7 +282,7 @@
 // export default Dashboard;
 
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './Dashboard.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -320,8 +320,11 @@ const Dashboard = () => {
 
   const [recommendedVideos, setRecommendedVideos] = useState([]);
   const [latestVideo, setLatestVideo] = useState(null);
+  const videoRef = useRef(null);
   const [modalVideoUrl, setModalVideoUrl] = useState("");
+  const [articleUrl, setArticleUrl] = useState("");
   const [modalVideoThumb, setModalVideoThumb] = useState("");
+  const [modalLanguageOptions, setModalLanguageOptions] = useState("");
   const [loading, setLoading] = useState(false);
   const [dashboardStats, setDashboardStats] = useState({
     userCount: 0,
@@ -329,7 +332,7 @@ const Dashboard = () => {
     totalVideoViews: 0,
     usersActiveToday: 0,
   });
-  const [videoLanguage, setVideoLanguage] = useState("English");
+  const [videoLanguage, setVideoLanguage] = useState("english");
   const [newVideoUploaded, setNewVideoUploaded] = useState(false);  // Track if new video uploaded
   const [notificationMessage, setNotificationMessage] = useState('');  // Store notification message
 
@@ -348,14 +351,20 @@ const Dashboard = () => {
   const fetchLatestVideo = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:3000/api/latestvideo");
-      if (response.data) {
+      await axios.get("http://localhost:3000/api/latestvideo")
+        .then(response => {
+          console.log(response.data.languages[0])
+        // response.data = response.data.map(({_id, ... rest}) => rest)
+        delete response.data["_id"]
+          if (response.data) {
         setLatestVideo(response.data);
         if (!newVideoUploaded) {
           setNewVideoUploaded(true); // New video uploaded, set the state to true
           setNotificationMessage(`New video uploaded: ${response.data.title}`);
         }
       }
+        })
+      
     } catch (error) {
       toast.warn("Showing static latest video");
       console.error("Latest Video Fetch Error:", error);
@@ -367,11 +376,13 @@ const Dashboard = () => {
   const fetchRecommendedVideos = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:3000/api/recommended");
-      if (response.data && response.data.length > 0) {
-        setRecommendedVideos(response.data);
+      await axios.get("http://localhost:3000/api/recommended")
+        .then(response => {
+          if (response.data && response.data.length > 0) {
+          setRecommendedVideos(response.data);
       }
-      console.log(response.data);
+      console.log("recommended",response.data);
+        })
     } catch (error) {
       toast.warn("Showing static recommended videos");
       console.error("Recommended Videos Fetch Error:", error);
@@ -380,9 +391,11 @@ const Dashboard = () => {
     }
   };
 
-  const setVideoparameter = async (videoUrl, thumbnail) => {
+  const setVideoparameter = async (videoUrl, thumbnail, langOptions) => {
     setModalVideoThumb(thumbnail);
     setModalVideoUrl(videoUrl);
+    setModalLanguageOptions(langOptions)
+    console.log("modal options", typeof(latestVideo.languages[0]))
   }
 
   useEffect(() => {
@@ -516,8 +529,14 @@ const Dashboard = () => {
 
 
 
-
-
+// const languageItems = Object.entries(modalLanguageOptions).map(([key, value], i) =>
+//                         <option key={i} value={key}>{key}</option>
+//                     );
+var languageItems = [];
+for (var i in modalLanguageOptions){
+  if(i != "_id")
+    languageItems.push([i])
+}
 
   return (
     <div className="dashboard-container">
@@ -635,7 +654,17 @@ const Dashboard = () => {
                     className="play-icon latest-play"
                     data-bs-toggle="modal"
                     data-bs-target="#videoModal"
-                    onClick={() => setModalVideoUrl(latestVideo.link)}
+                    onClick={() => {
+                      setVideoLanguage("english")
+                      setVideoparameter(latestVideo.languages[0][videoLanguage].url, `../../public/Images/static_img1.jpg`, latestVideo.languages[0])
+                      setArticleUrl("https://www.pib.gov.in/PressReleasePage.aspx?PRID="+latestVideo.languages[0][videoLanguage].prid)
+                      if (videoRef.current) {
+                          videoRef.current.pause();
+                          videoRef.current.src = latestVideo.languages[0][videoLanguage].url;
+                          videoRef.current.load();
+                          videoRef.current.play(); // optional: autoplay after change
+                        }
+                    }}
                   />
                   <p className="image-caption">{latestVideo.title}</p>
                 </>
@@ -668,7 +697,17 @@ const Dashboard = () => {
                     className="play-icon"
                     data-bs-toggle="modal"
                     data-bs-target="#videoModal"
-                    onClick={() => setVideoparameter(video.link, `../../public/Images/static_img${index + 1}.jpg`)}
+                    onClick={() => {
+                      setVideoLanguage("english")
+                      setVideoparameter(video.languages[0][videoLanguage].url, `../../public/Images/static_img1.jpg`, video.languages[0])
+                      setArticleUrl("https://www.pib.gov.in/PressReleasePage.aspx?PRID="+video.languages[0][videoLanguage].prid)
+                      if (videoRef.current) {
+                          videoRef.current.pause();
+                          videoRef.current.src = video.languages[0][videoLanguage].url;
+                          videoRef.current.load();
+                          videoRef.current.play(); // optional: autoplay after change
+                        }
+                    }}
                   />
                   <p className="image-caption">{recommendedTitles[index]}</p>
                 </div>
@@ -682,7 +721,7 @@ const Dashboard = () => {
                       className="play-icon"
                       data-bs-toggle="modal"
                       data-bs-target="#videoModal"
-                      onClick={() => setModalVideoUrl("/Videos/sample.mp4")}
+                      onClick={() => setModalVideoUrl(latestVideo.url)}
                     />
                     <p className="image-caption">Video</p>
                   </div>
@@ -809,6 +848,7 @@ const Dashboard = () => {
           <div className="modal-content bg-dark">
             <div className="modal-body p-0">
               <video
+                ref={videoRef}
                 id="modalVideo"
                 width="100%"
                 controls
@@ -816,7 +856,7 @@ const Dashboard = () => {
                 poster={modalVideoThumb}
                 style={{ maxHeight: '80vh', objectFit: 'cover' }}
 
-                src={modalVideoUrl}
+                // src={modalVideoUrl}
                 // src="/Videos/sample.mp4"
                 type="video/mp4"
               >
@@ -830,9 +870,9 @@ const Dashboard = () => {
                 <div className="d-flex align-items-center">
                   <strong className="me-2">Source:</strong>
                   <a className="text-info" style={{ cursor: 'pointer' }}
-                    href='https://pib.gov.in'
+                    href={articleUrl}
                     target="_blank"
-                  >www.pib.gov.in</a>
+                  >{articleUrl}</a>
                 </div>
 
 
@@ -852,12 +892,29 @@ const Dashboard = () => {
                     className="form-select form-select-sm bg-dark text-white border-secondary"
                     value={videoLanguage}
                     onChange={(e) => {
-                      setVideoLanguage(e.target.value);
-                      toast.info(`Language set to ${e.target.value}`);
+                      const newLang = e.target.value;
+                      setVideoLanguage(newLang);
+                      toast.info(`Language set to ${newLang}`);
+
+                      const newUrl = modalLanguageOptions[newLang]?.url;
+
+                      if (newUrl) {
+                        setModalVideoUrl(newUrl);
+                        setArticleUrl("https://www.pib.gov.in/PressReleasePage.aspx?PRID="+modalLanguageOptions[newLang]?.prid)
+                        // Pause, change src, and load the new video
+                        if (videoRef.current) {
+                          videoRef.current.pause();
+                          videoRef.current.src = newUrl;
+                          videoRef.current.load();
+                          videoRef.current.play(); // optional: autoplay after change
+                        }
+                      }
                     }}
                   >
-                    <option value="English">English</option>
-                    <option value="Hindi">Hindi</option>
+                     
+                    {languageItems.map((lang, i) => (
+                        <option key={i} value={lang}>{lang}</option>
+                    ))}
                   </select>
                 </div>
               </div>

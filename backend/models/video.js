@@ -1,20 +1,20 @@
 import { Schema, model } from "mongoose";
 
+const languageSchema = new Schema(
+  {
+    prid: String,
+    url: String
+  }
+)
 const videoSchema = new Schema({
-  link: {
+  prid: {
     type: String,
     required: true,
     // unique:true,
   },
-  views: {
-    type: Number,
-    required: true,
-  },
-  date: {
-    type: Date,
-    required: true,
-  },
-
+  languages: [{
+    language: languageSchema
+  }]
 });
 
 export default model("video", videoSchema);
