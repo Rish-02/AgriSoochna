@@ -8,24 +8,24 @@ import dotenv from "dotenv";
 // import video from "../models/video.js";
 
 dotenv.config();
-export async function createVideo(req, res) {
-  try {
-    let link = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-    let views = 0
-    let date = new Date();
-    console.log(link, views,date);
-    const newVideo = await Video.create({
-      link,
-      views,
-      date,
-    });
+// export async function createVideo(req, res) {
+//   try {
+//     let link = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+//     let views = 0
+//     let date = new Date();
+//     console.log(link, views,date);
+//     const newVideo = await Video.create({
+//       link,
+//       views,
+//       date,
+//     });
 
-    return res.status(201).json({ success: true, message: "Video registered successfully" });
-  } catch (error) {
-    console.error("Registration error:", error);
-    return res.status(500).json({ success: false, message: "Server error", error: error.message });
-  }
-};
+//     return res.status(201).json({ success: true, message: "Video registered successfully" });
+//   } catch (error) {
+//     console.error("Registration error:", error);
+//     return res.status(500).json({ success: false, message: "Server error", error: error.message });
+//   }
+// };
 
 export async function allVideos(req,res) {
     try {
